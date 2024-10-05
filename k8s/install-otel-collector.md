@@ -11,6 +11,17 @@ collect and send:
 * Host and application logs
 
 
+## Pre-requisites
+
+- Create indexes as needed
+- Create HEC endpoint and token
+- Create namespace for the opentelemetry collector components
+
+```cmd
+kubectl create ns system-splunk-otel
+```
+
+
 ## Install
 1. Make sure that you have installed and configured the Helm 3.0 client. For more information see the [version skew supported between Helm and Kubernetes](https://helm.sh/docs/topics/version_skew/)
 
