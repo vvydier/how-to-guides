@@ -1,4 +1,4 @@
-
+# Update and upgrade Splunk k8s Otel collector configuration
 
 ### Create the values.yaml file with custom configuration
 
