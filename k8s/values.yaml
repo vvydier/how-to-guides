@@ -1,0 +1,20 @@
+clusterName: my-k8s-cluster
+certmanager:
+  enabled: true
+cloudProvider: azure
+distribution: aks
+environment: reg
+gateway:
+  enabled: false
+agent:
+  discovery:
+    enabled: false
+operator:
+  enabled: true
+splunkObservability:
+  accessToken: update_me
+  profilingEnabled: true
+  realm: us1
+splunkPlatform:
+  endpoint: https://http-inputs-myorg.splunkcloud.com/services/collector/event
+  token: update_me

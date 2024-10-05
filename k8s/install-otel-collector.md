@@ -38,6 +38,8 @@ kubectl get pods -l app=cert-manager --all-namespaces
 helm install splunk-otel-collector --set="cloudProvider=azure,distribution=aks,splunkObservability.accessToken=$ACCESS_TOKEN,clusterName=my-kube-cluster,splunkObservability.realm=us0,gateway.enabled=false,splunkPlatform.endpoint=https://http-inputs-myorg.splunkcloud.com:443,splunkPlatform.token=$HEC_TOKEN,splunkObservability.profilingEnabled=true,environment=production,operator.enabled=true,certmanager.enabled=true,agent.discovery.enabled=false" splunk-otel-collector-chart/splunk-otel-collector
 ```
 
+See [advanced configuration](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md) for more values and settings
+
 5. Set annotations to activate the automatic instrumentation before runtime. For more information, [see the documentation](https://docs.splunk.com/observability/en/gdi/opentelemetry/automatic-discovery/k8s/k8s-backend.html#set-annotations-to-instrument-applications)
 
 Note: If your chart deployment is in a namespace other than default, replace default in the annotation with the namespace you're using for deployment.
@@ -63,3 +65,10 @@ Node.js
 ```cmd
 kubectl patch deployment <my-deployment> -n <my-namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-nodejs":"default/splunk-otel-collector"}}}}}'
 ```
+
+## Additional Configuration
+
+### [Ingest additional logs from k8s host machines and volumes](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#add-log-files-from-kubernetes-host-machinesvolumes)
+### [Collect journald events](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#collect-journald-events)
+### [Scrape prometheus metrics](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#additional-telemetry-sources)
+### [Override underlying opentelemetry agent configuration](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#override-underlying-opentelemetry-agent-configuration)
