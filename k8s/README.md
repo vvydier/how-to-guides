@@ -9,3 +9,10 @@
 1. ### [Annotations](annotations.md)
 
 
+## Useful Links
+
+### [Ingest additional logs from k8s host machines and volumes](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#add-log-files-from-kubernetes-host-machinesvolumes)
+### [Collect journald events](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#collect-journald-events)
+### [Scrape prometheus metrics](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#additional-telemetry-sources)
+### [Override underlying opentelemetry agent configuration](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#override-underlying-opentelemetry-agent-configuration)
+
