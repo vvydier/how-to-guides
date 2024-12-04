@@ -43,6 +43,7 @@ Save the file and exit the editor.
 The Splunk HEC exporter is configured out of the box under the **splunk_hec** section.
 
 # Logs
+```
 splunk_hec:
   token: "${SPLUNK_HEC_TOKEN}"
   endpoint: "${SPLUNK_HEC_URL}"
@@ -50,6 +51,8 @@ splunk_hec:
   sourcetype: "otel"
   index: "main"
   profiling_data_enabled: false
+```
+
 
 Instead of updating environment variables directly in the configuration file (although you can if you want to), based on the specified installation parameters for MSI installer, the environment variables are sourced from the registry key - HKLM:\SYSTEM\CurrentControlSet\Services\splunk-otel-collector and set on the Environment entry.
 
