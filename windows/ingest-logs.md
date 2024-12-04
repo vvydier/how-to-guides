@@ -42,7 +42,6 @@ Save the file and exit the editor.
 
 The Splunk HEC exporter is configured out of the box under the **splunk_hec** section.
 
-# Logs
 ```
 splunk_hec:
   token: "${SPLUNK_HEC_TOKEN}"
