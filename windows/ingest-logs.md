@@ -57,5 +57,5 @@ Instead of updating environment variables directly in the configuration file (al
 
 To modify any of the configuration values like SPLUNK_HEC_URL and SPLUNK_HEC_TOKEN, run regedit and browse to the path.
 
-![regedit](splunk-otel-collector-regedit.png) "Edit registry")
+![regedit](splunk-otel-collector-regedit.png "Edit registry")
 
