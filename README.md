@@ -1,3 +1,5 @@
-# How to guides for common observability use cases
+# How to guides for common splunk o11y cloud observability use cases
 
-## [Install k8s otel collector - splunk distribution](k8s/README.md)
+## [Kubernetes](k8s/README.md)
+
+## [Java](java/README.md)
