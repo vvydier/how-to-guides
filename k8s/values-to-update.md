@@ -9,29 +9,31 @@
 Here is an example of using the set argument to specify values
 
 ```cmd
-helm upgrade splunk-otel-collector --set="cloudProvider=azure,distribution=aks,splunkObservability.accessToken=$ACCESS_TOKEN,clusterName=my-kube-cluster,splunkObservability.realm=us0,gateway.enabled=false,splunkPlatform.endpoint=https://http-inputs-myorg.splunkcloud.com:443,splunkPlatform.token=$HEC_TOKEN,splunkObservability.profilingEnabled=true,environment=production,operator.enabled=true,certmanager.enabled=true,agent.discovery.enabled=false ..." 
+helm upgrade splunk-otel-collector --set="cloudProvider=azure,distribution=aks,splunkObservability.accessToken=$ACCESS_TOKEN,clusterName=my-kube-cluster,splunkObservability.realm=us0,gateway.enabled=false,splunkPlatform.endpoint=https://http-inputs-myorg.splunkcloud.com:443,splunkPlatform.token=$HEC_TOKEN,splunkObservability.profilingEnabled=true,environment=production,operator.enabled=true,certmanager.enabled=true,agent.discovery.enabled=false" splunk-otel-collector-chart/splunk-otel-collector --namespace splunk-otel 
 ```
 
 and an example of using the -f argument 
 
 ```cmd
-helm upgrade splunk-otel-collector -f {{path-to-values.yaml}} 
+helm upgrade splunk-otel-collector -f {{path-to-values.yaml}} splunk-otel-collector-chart/splunk-otel-collector --namespace system-splunk-otel
 ```
 
 It is possible to use them both together passing some values through the set argument and other through the values.yaml file
 
 ##### Create a base values.yaml 
 
-- With default settings
+- With default settings from the chart
 
 ````cmd
 helm show values splunk-otel-collector-chart/splunk-otel-collector > values.yaml
 ````
 
--  Or with existing user specified settings
+**OR**
+
+- With existing user specified settings from the release
 
 ```cmd
-helm get values splunk-otel-collector --namespace otel >> values.yaml
+helm get values splunk-otel-collector --namespace system-splunk-otel >> values.yaml
 ```
 
 #### Add or update values 
