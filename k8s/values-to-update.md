@@ -51,8 +51,31 @@ Ensure that these values are specified and update them and [any additional value
 - splunkObservability.realm
 - splunkPlatform.endpoint
 - splunkPlatform.token
+- splunkPlatform.index
+- logsEngine: otel
 
-
+Sample values.yaml file.
+```yaml
+certmanager:
+  enabled: true
+cloudProvider: azure
+clusterName: my-k8s-cluster
+distribution: aks
+environment: prod
+gateway:
+  enabled: false
+operator:
+  enabled: true
+splunkObservability:
+  accessToken: xxx
+  profilingEnabled: true
+  realm: us1
+splunkPlatform:
+  endpoint: https://http-inputs-o11y-workshop-us1.splunkcloud.com/services/collector/event
+  index: k8s_app_logs
+  token: xxx
+logsEngine: otel
+```
 ## Run pre requisite checks
 
 ### Check the helm deployment status

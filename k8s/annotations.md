@@ -33,4 +33,3 @@ kubectl annotate <name of object/namespace to be annotated> splunk.com/exclude=t
 ```cmd
 kubectl annotate <name of object/namespace to be annotated> splunk.com/<index | sourcetype | exclude>-
 ```
-
