@@ -33,7 +33,7 @@ helm show values splunk-otel-collector-chart/splunk-otel-collector > values.yaml
 - With existing user specified settings from the release
 
 ```cmd
-helm get values splunk-otel-collector --namespace system-splunk-otel >> values.yaml
+helm get values splunk-otel-collector --namespace splunk-otel >> values.yaml
 ```
 
 #### Add or update values 
@@ -81,19 +81,19 @@ logsEngine: otel
 ### Check the helm deployment status
 
 ```cmd
-helm ls --namespace system-splunk-otel
+helm ls --namespace splunk-otel
 ```
 
 ### Check resources created by Helm deployment
 
 ```cmd
-kubectl get pods --namespace system-splunk-otel
+kubectl get pods --namespace splunk-otel
 ```
 
 ### Retrieve OTel pod logs for review
 
 ```cmd
-kubectl logs -f {{otel-agent-pod}} --namespace system-splunk-otel
+kubectl logs -f {{otel-agent-pod}} --namespace splunk-otel
 ```
 
 ## Upgrade splunk-otel-collector release with updated values
@@ -101,11 +101,11 @@ kubectl logs -f {{otel-agent-pod}} --namespace system-splunk-otel
 ### Execute helm upgrade 
 
 ```cmd
-helm upgrade splunk-otel-collector -f values.yaml splunk-otel-collector-chart/splunk-otel-collector --namespace system-splunk-otel
+helm upgrade splunk-otel-collector -f values.yaml splunk-otel-collector-chart/splunk-otel-collector --namespace splunk-otel
 ```
 
 ### Review configmap to see the rendered pipeline
 
 ```cmd
-kubectl get configmap splunk-otel-collector-otel-agent -o yaml --namespace system-splunk-otel
+kubectl get configmap splunk-otel-collector-otel-agent -o yaml --namespace splunk-otel
 ```
