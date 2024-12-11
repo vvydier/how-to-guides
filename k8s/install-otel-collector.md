@@ -18,7 +18,7 @@ collect and send:
 - Create namespace for the opentelemetry collector components
 
 ```cmd
-kubectl create ns system-splunk-otel
+kubectl create ns splunk-otel
 ```
 
 
@@ -46,7 +46,7 @@ kubectl get pods -l app=cert-manager --all-namespaces
 
 - If cert-manager is deployed, make sure to remove certmanager.enabled=true from the list of values to set.
 ```cmd
-helm install splunk-otel-collector --set="cloudProvider=azure,distribution=aks,splunkObservability.accessToken=$ACCESS_TOKEN,clusterName=my-kube-cluster,splunkObservability.realm=us0,gateway.enabled=false,splunkPlatform.endpoint=https://http-inputs-myorg.splunkcloud.com:443,splunkPlatform.token=$HEC_TOKEN,splunkObservability.profilingEnabled=true,environment=production,operator.enabled=true,certmanager.enabled=true,agent.discovery.enabled=false" splunk-otel-collector-chart/splunk-otel-collector
+helm install splunk-otel-collector --version 0.111.0 --set="cloudProvider=azure,distribution=aks,splunkObservability.accessToken=$ACCESS_TOKEN,clusterName=my-kube-cluster,splunkObservability.realm=us0,gateway.enabled=false,splunkPlatform.endpoint=https://http-inputs.myorg.splunkcloud.com/services/collector,splunkPlatform.token=$HEC_TOKEN,splunkObservability.profilingEnabled=true,environment=production,operator.enabled=true,certmanager.enabled=true,agent.discovery.enabled=false" splunk-otel-collector-chart/splunk-otel-collector
 ```
 
 See [advanced configuration](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md) for more values and settings
