@@ -152,11 +152,12 @@ Review containers logs for kubernetes operator and application
 
 ```cmd
 kubectl logs -l app.kubernetes.io/name=operator -n splunk-otel
+kubectl logs -l app=webhook -n splunk-otel
 kubectl logs -n <app namespace> <application pod name>
 ```
 
 Shell into the pod to access the /var/log/opentelemetry/dotnet folder.
 
 ```cmd
-k -n <app namespace> exec -it <application pod name> -- /bin/s
+k -n <app namespace> exec -it <application pod name> -- /bin/sh
 ```
