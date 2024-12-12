@@ -15,7 +15,7 @@ helm upgrade splunk-otel-collector --set="cloudProvider=azure,distribution=aks,s
 and an example of using the -f argument 
 
 ```cmd
-helm upgrade splunk-otel-collector -f {{path-to-values.yaml}} splunk-otel-collector-chart/splunk-otel-collector --namespace system-splunk-otel
+helm upgrade splunk-otel-collector -f {{path-to-values.yaml}} splunk-otel-collector-chart/splunk-otel-collector --namespace splunk-otel
 ```
 
 It is possible to use them both together passing some values through the set argument and other through the values.yaml file
@@ -56,10 +56,17 @@ Ensure that these values are specified and update them and [any additional value
 
 Sample values.yaml file.
 ```yaml
+agent:
+  discovery:
+    enabled: false
+  config:
+    receivers:
+      kubeletstats:
+        insecure_skip_verify: true
 certmanager:
   enabled: true
 cloudProvider: azure
-clusterName: my-k8s-cluster
+clusterName: prakash-k8s
 distribution: aks
 environment: prod
 gateway:
@@ -67,13 +74,13 @@ gateway:
 operator:
   enabled: true
 splunkObservability:
-  accessToken: xxx
+  accessToken: 
   profilingEnabled: true
-  realm: us1
+  realm: us0
 splunkPlatform:
-  endpoint: https://http-inputs-o11y-workshop-us1.splunkcloud.com/services/collector/event
-  index: k8s_app_logs
-  token: xxx
+  endpoint: https://http-inputs-stackid.splunkcloud.com/services/collector/event
+  index: 
+  token: 
 logsEngine: otel
 ```
 ## Run pre requisite checks
