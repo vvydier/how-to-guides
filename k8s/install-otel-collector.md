@@ -44,12 +44,17 @@ helm repo update
 kubectl get pods -l app=cert-manager --all-namespaces
 ```
 
-- If cert-manager is deployed, make sure to remove certmanager.enabled=true from the list of values to set.
+- If cert-manager is deployed, make sure to set certmanager.enabled=false.
+
+- Run of the two command below:
+
 ```cmd
 helm install splunk-otel-collector --version 0.111.0 --set="cloudProvider=azure,distribution=aks,splunkObservability.accessToken=$ACCESS_TOKEN,clusterName=my-kube-cluster,splunkObservability.realm=us0,gateway.enabled=false,splunkPlatform.endpoint=https://http-inputs.myorg.splunkcloud.com/services/collector,splunkPlatform.token=$HEC_TOKEN,splunkObservability.profilingEnabled=true,environment=production,operator.enabled=true,certmanager.enabled=true,agent.discovery.enabled=false" splunk-otel-collector-chart/splunk-otel-collector
 ```
+**OR**
 
-or using values.yaml
+Save these contents to values.yaml file and update it for your environment.
+
 ```yaml
 clusterName: update_me
 cloudProvider: azure
@@ -86,25 +91,48 @@ helm install splunk-otel-collector --version 0.111.0  -f {{path-to-values.yaml}}
 
 See [advanced configuration](https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md) for more values and settings
 
+
 5. Set annotations to activate the automatic instrumentation before runtime. For more information, [see the documentation](https://docs.splunk.com/observability/en/gdi/opentelemetry/automatic-discovery/k8s/k8s-backend.html#set-annotations-to-instrument-applications)
 
-Note: If your chart deployment is in a namespace other than default, replace default in the annotation with the namespace you're using for deployment.
 
 Java
 ```cmd
 kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-java":"splunk-otel/splunk-otel-collector"}}}}}'
 ```
+Resulting annotationw would look like this
+
+```yaml
+  spec:
+    template:
+      metadata:
+        annotations:
+          instrumentation.opentelemetry.io/inject-java: "splunk-otel/splunk-otel-collector"
+```
+
 
 .NET 
 
-For linux-x64
+**For linux-x64**
 ```cmd
 kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"splunk-otel/splunk-otel-collector","instrumentation.opentelemetry.io/otel-dotnet-auto-runtime":"linux-x64"}}}}}'
 ```
-The `instrumentation.opentelemetry.io/otel-dotnet-auto-runtime` annotation can be skipped for `linux-x64` runtime identifier as it is the default.
+
+The resulting annotations added should look like this
+
+```yaml
+  spec:
+    template:
+      metadata:
+        annotations:
+          instrumentation.opentelemetry.io/otel-dotnet-auto-runtime: "linux-x64"
+          instrumentation.opentelemetry.io/inject-dotnet: "splunk-otel/splunk-otel-collector"
+```
+
+**Note**: The `instrumentation.opentelemetry.io/otel-dotnet-auto-runtime` annotation can be skipped for `linux-x64` runtime identifier as it is the default.
 
 
-For linux-musl-x64
+**For linux-musl-x64**
+
 ```cmd
 kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"splunk-otel/splunk-otel-collector","instrumentation.opentelemetry.io/otel-dotnet-auto-runtime":"linux-musl-x64"}}}}}'
 ```
@@ -114,9 +142,9 @@ For applications running in environments based on the musl library, the annotati
 
 ```yaml
   spec:
-  template:
-    metadata:
-      annotations:
+    template:
+      metadata:
+        annotations:
           instrumentation.opentelemetry.io/otel-dotnet-auto-runtime: "linux-musl-x64"
           instrumentation.opentelemetry.io/inject-dotnet: "splunk-otel/splunk-otel-collector"
 ```
