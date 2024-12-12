@@ -18,8 +18,9 @@ operator:
 splunkObservability:
   accessToken: update_me
   profilingEnabled: true
-  realm: us1
+  realm: update_me
 splunkPlatform:
   endpoint: https://http-inputs.update_me_with_stack_id.splunkcloud.com/services/collector/event
   index: update_me
   token: update_me
+logsEngine: otel

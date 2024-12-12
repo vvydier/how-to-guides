@@ -66,7 +66,7 @@ agent:
 certmanager:
   enabled: true
 cloudProvider: azure
-clusterName: prakash-k8s
+clusterName: update_me
 distribution: aks
 environment: prod
 gateway:
@@ -76,11 +76,11 @@ operator:
 splunkObservability:
   accessToken: 
   profilingEnabled: true
-  realm: us0
+  realm: update_me
 splunkPlatform:
-  endpoint: https://http-inputs-stackid.splunkcloud.com/services/collector/event
-  index: 
-  token: 
+  endpoint: https://http-inputs-update_me.splunkcloud.com/services/collector/event
+  index: update_me
+  token: update_me
 logsEngine: otel
 ```
 ## Run pre requisite checks

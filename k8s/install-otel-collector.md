@@ -76,6 +76,7 @@ splunkPlatform:
   endpoint: https://http-inputs.xxx.splunkcloud.com/services/collector/event
   index: main
   token: xxx
+logsEngine: otel
 ```
 
 ```cmd
@@ -90,7 +91,7 @@ Note: If your chart deployment is in a namespace other than default, replace def
 
 Java
 ```cmd
-kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-java":"default/splunk-otel-collector"}}}}}'
+kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-java":"<splunk-otel-namespace>/splunk-otel-collector"}}}}}'
 ```
 
 .NET 
