@@ -1,3 +1,22 @@
+clusterName: update_me
+cloudProvider: azure
+distribution: aks
+environment: update_me
+splunkObservability:
+  accessToken: update_me
+  profilingEnabled: true
+  realm: update_me
+splunkPlatform:
+  endpoint: https://http-inputs.xxx.splunkcloud.com/services/collector/event
+  index: update_me
+  token: update_me
+certmanager:
+  enabled: true
+gateway:
+  enabled: false
+operator:
+  enabled: true
+logsEngine: otel
 agent:
   discovery:
     enabled: false
@@ -5,22 +24,3 @@ agent:
     receivers:
       kubeletstats:
         insecure_skip_verify: true
-certmanager:
-  enabled: true
-cloudProvider: azure
-clusterName: update_me
-distribution: aks
-environment: prod
-gateway:
-  enabled: false
-operator:
-  enabled: true
-splunkObservability:
-  accessToken: update_me
-  profilingEnabled: true
-  realm: update_me
-splunkPlatform:
-  endpoint: https://http-inputs.update_me_with_stack_id.splunkcloud.com/services/collector/event
-  index: update_me
-  token: update_me
-logsEngine: otel

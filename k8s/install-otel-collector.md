@@ -51,6 +51,25 @@ helm install splunk-otel-collector --version 0.111.0 --set="cloudProvider=azure,
 
 or using values.yaml
 ```yaml
+clusterName: update_me
+cloudProvider: azure
+distribution: aks
+environment: update_me
+splunkObservability:
+  accessToken: update_me
+  profilingEnabled: true
+  realm: update_me
+splunkPlatform:
+  endpoint: https://http-inputs.xxx.splunkcloud.com/services/collector/event
+  index: update_me
+  token: update_me
+certmanager:
+  enabled: true
+gateway:
+  enabled: false
+operator:
+  enabled: true
+logsEngine: otel
 agent:
   discovery:
     enabled: false
@@ -58,25 +77,7 @@ agent:
     receivers:
       kubeletstats:
         insecure_skip_verify: true
-certmanager:
-  enabled: true
-cloudProvider: azure
-clusterName: prakash-k8s
-distribution: aks
-environment: prod
-gateway:
-  enabled: false
-operator:
-  enabled: true
-splunkObservability:
-  accessToken: xxx
-  profilingEnabled: true
-  realm: us1
-splunkPlatform:
-  endpoint: https://http-inputs.xxx.splunkcloud.com/services/collector/event
-  index: main
-  token: xxx
-logsEngine: otel
+
 ```
 
 ```cmd
@@ -91,21 +92,21 @@ Note: If your chart deployment is in a namespace other than default, replace def
 
 Java
 ```cmd
-kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-java":"<splunk-otel-namespace>/splunk-otel-collector"}}}}}'
+kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-java":"splunk-otel/splunk-otel-collector"}}}}}'
 ```
 
 .NET 
 
 For linux-x64
 ```cmd
-kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"<splunk-otel-namespace>/splunk-otel-collector","instrumentation.opentelemetry.io/otel-dotnet-auto-runtime":"linux-x64"}}}}}'
+kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"splunk-otel/splunk-otel-collector","instrumentation.opentelemetry.io/otel-dotnet-auto-runtime":"linux-x64"}}}}}'
 ```
 The `instrumentation.opentelemetry.io/otel-dotnet-auto-runtime` annotation can be skipped for `linux-x64` runtime identifier as it is the default.
 
 
 For linux-musl-x64
 ```cmd
-kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"<splunk-otel-namespace>/splunk-otel-collector","instrumentation.opentelemetry.io/otel-dotnet-auto-runtime":"linux-musl-x64"}}}}}'
+kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"splunk-otel/splunk-otel-collector","instrumentation.opentelemetry.io/otel-dotnet-auto-runtime":"linux-musl-x64"}}}}}'
 ```
 
 
@@ -117,12 +118,45 @@ For applications running in environments based on the musl library, the annotati
     metadata:
       annotations:
           instrumentation.opentelemetry.io/otel-dotnet-auto-runtime: "linux-musl-x64"
-          instrumentation.opentelemetry.io/inject-dotnet: "monitoring/splunk-otel-collector"
+          instrumentation.opentelemetry.io/inject-dotnet: "splunk-otel/splunk-otel-collector"
 ```
 
 
 Node.js
 ```cmd
-kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-nodejs":"<splunk-otel-namespace>/splunk-otel-collector"}}}}}'
+kubectl patch deployment <deployment-name> -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-nodejs":"splunk-otel/splunk-otel-collector"}}}}}'
 ```
 
+
+## [Verify all the OpenTelemetry resources are deployed successfully](https://docs.splunk.com/observability/en/gdi/opentelemetry/automatic-discovery/k8s/k8s-backend.html#verify-all-the-opentelemetry-resources-are-deployed-successfully)
+
+Review the splunk k8s collector deployment to ensure everything looks good.  Specifically, ensure the operator, agent, and cluster receiver pods are all healthy and running.
+
+```cmd
+kubectl get pods -n splunk-otel
+```
+
+Ensure splunk instrumentation resource is created
+
+```cmd
+kubectl get otelinst -n splunk-otel
+```
+
+Describe the application pod that you are to instrument.  Ensure the .NET agent is being injected as an init container and everything looks as expected.
+
+```cmd
+kubectl describe pod <application_pod_name> -n splunk-otel
+```
+
+Review containers logs for kubernetes operator and application 
+
+```cmd
+kubectl logs -l app.kubernetes.io/name=operator -n splunk-otel
+kubectl logs -n <app namespace> <application pod name>
+```
+
+Shell into the pod to access the /var/log/opentelemetry/dotnet folder.
+
+```cmd
+k -n <app namespace> exec -it <application pod name> -- /bin/s
+```
