@@ -187,5 +187,14 @@ kubectl logs -n <app namespace> <application pod name>
 Shell into the pod to access the /var/log/opentelemetry/dotnet folder.
 
 ```cmd
-k -n <app namespace> exec -it <application pod name> -- /bin/sh
+kubectl -n <app namespace> exec -it <application pod name> -- /bin/sh
+```
+
+## Bulk Update
+
+### Patch all deployments in a namespace 
+
+Replace both occurrences of <namespace> below with the deployment namespace. Running the command patches all deployments in that namespace for dotnet instrumentation.
+```cmd
+kubectl get deployments -o name -n <namespace> | sed -e 's/.*\///g' | xargs -I {} kubectl patch deployment {} -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"splunk-otel/splunk-otel-collector"}}}}}'
 ```

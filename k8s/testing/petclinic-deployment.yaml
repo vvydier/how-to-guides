@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic-deployment
+  labels:
+    group: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic-app
+  template:
+    metadata:
+      labels:
+        app: petclinic-app
+    spec:
+      imagePullSecrets:
+        - name: ptokensecret
+      containers:
+      - name: petclinic
+        image: springcommunity/spring-framework-petclinic:latest
+        imagePullPolicy: Always
+        env:
+          - name: OTEL_SERVICE_NAME
+            value: "petclinic"
+          - name: OTEL_RESOURCE_ATTRIBUTES
+            value: "deployment.environment=production"
+        ports:
+        - containerPort: 8090
