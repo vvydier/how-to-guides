@@ -194,7 +194,14 @@ kubectl -n <app namespace> exec -it <application pod name> -- /bin/sh
 
 ### Patch all deployments in a namespace 
 
-Replace both occurrences of <namespace> below with the deployment namespace. Running the command patches all deployments in that namespace for dotnet instrumentation.
+Replace both occurrences of \<namespace\> below with the deployment namespace. Running the command patches all deployments in that namespace for dotnet instrumentation.
+
 ```cmd
 kubectl get deployments -o name -n <namespace> | sed -e 's/.*\///g' | xargs -I {} kubectl patch deployment {} -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.io/inject-dotnet":"splunk-otel/splunk-otel-collector"}}}}}'
+```
+
+If the container is running an OS built with musl C compiler, then you also add another annotation.
+
+```cmd
+kubectl get deployments -o name -n <namespace> | sed -e 's/.*\///g' | xargs -I {} kubectl patch deployment {} -n <namespace> -p '{"spec":{"template":{"metadata":{"annotations":{"instrumentation.opentelemetry.iot/otel-botnet-auto-runtime":"linux-musl-x64"}}}}}'
 ```
